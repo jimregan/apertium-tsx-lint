@@ -113,7 +113,8 @@ sub handle_end {
 		$reading = 0;
 	}
 	if($element eq 'def-mult') {
-		my $current_items = join("\\+", @current_tags);
+		my @local_tags = map { (my $s = $_) =~ s/^\^//; $s } @current_tags;
+		my $current_items = join("\\+", @local_tags);
 		$items{$current_label} = $current_items;
 		$current_label = "";
 		@current_tags = ();
