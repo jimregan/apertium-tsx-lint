@@ -94,7 +94,7 @@ use XML::Parser;
 
 my @elements;
 
-#my $DEBUG = 1;
+my $DEBUG = 0;
 
 my $current_label = "";
 my %items = ();
