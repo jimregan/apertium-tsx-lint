@@ -2,15 +2,74 @@
 
 =head1 NAME
 
-apertium-tsx-lint - Test a tsx file for common problems
+apertium-tsx-lint - Test a TSX file for common problems
 
 =head1 SYNOPSIS
 
-  apertium-tsx-lint tsx-file [DIC]
+apertium-tsx-lint tsx-file [DIC]
 
 =head1 DESCRIPTION
 
-TBD
+Test a TSX file for for some common pitfalls.
+
+TSX is one of the paths less well travelled, and
+tends to be a bit black magic, "oh my God, that's
+the funky shit"-y. 
+
+Currently, there are three checks:
+
+=over 
+
+=item C<WARN_CONFLICT>
+
+Warns of a conflict between tagger items (i.e., if they
+are exactly the same).
+
+=item C<NO_OPEN_TAGS>
+
+Without tags for open classes, the tagger will fail to
+train, because it will be unable to handle unknown words.
+
+=item C<MASKED_AMBIGUITY>
+
+Warns if the same tagger item matches two (or more) analyses.
+
+=back
+
+=head1 FILES
+
+=over
+
+=item B<tsx-file>
+
+The name of the tsx file to check
+
+=item B<[DIC]>
+
+Optional dictionary file. This should be the same as the
+B<DIC> file used by the tagger; i.e., an expansion of the
+analyses produced by the analyser.
+
+=back
+
+=head1 TODO
+
+=over 4
+
+=item * Testing. Real testing, on real data, and not my silly
+examples of the sort of thing that might happen.
+
+=item * Proper check for straight-out-of-the-analyser text, in
+which case the surface form needs to be discarded.
+
+=item * Documentation. 'Nuff said.
+
+=item * Sort the regex arrays, to get more warnings sooner
+
+=item * C<sort|uniq> the analyses, to cut down on spurious
+warnings.
+
+=back
 
 =head1 COPYRIGHT
 
@@ -29,4 +88,3 @@ Software Foundation; version 2, or
 =back
 
 =cut
-
