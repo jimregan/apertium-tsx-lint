@@ -60,12 +60,7 @@ analyses produced by the analyser.
 =item * Testing. Real testing, on real data, and not my silly
 examples of the sort of thing that might happen.
 
-=item * Proper check for straight-out-of-the-analyser text, in
-which case the surface form needs to be discarded.
-
 =item * Documentation. 'Nuff said.
-
-=item * Sort the regex arrays, to get more warnings sooner
 
 =item * C<sort|uniq> the analyses, to cut down on spurious
 warnings.
@@ -128,8 +123,10 @@ binmode $dic, ":utf8";
 my $diclineno = 0;
 while(<$dic>) {
 	chomp;
-	s/^\^//;
-	s/\$$//;
+	if(s/^\^//) {
+		s/\$$//;
+		s/^[^\/]*\///;
+	}
 	$diclineno++;
 	my $linetext = $_;
 	my @words = split/\//;
@@ -198,7 +195,7 @@ sub handle_start {
 sub handle_end {
 	my ($expat, $element) = @_;
 	if($element eq 'def-label') {
-		my $current_items = join("|", @current_tags);
+		my $current_items = join("|", sort(@current_tags));
 		$items{$current_label} = $current_items;
 		if($ritems{$current_items}) {
 			my $conflict = $ritems{$current_items};
