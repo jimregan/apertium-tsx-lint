@@ -1,4 +1,36 @@
 #!/usr/bin/perl
+=pod
+
+=head1 NAME
+
+apertium-tsx-lint - Test a tsx file for common problems
+
+=head1 SYNOPSIS
+
+  apertium-tsx-lint tsx-file [DIC]
+
+=head1 DESCRIPTION
+
+TBD
+
+=head1 COPYRIGHT
+
+Copyright 2013 Jimmy O'Regan
+
+This program is free software; you can use, redistribute and/or
+modify it under the terms of either:
+
+=over 4
+
+=item * the GNU General Public License as published by the Free
+Software Foundation; version 2, or
+
+=item * the Artistic License version 2.0.
+
+=back
+
+=cut
+
 
 use warnings;
 use strict;
