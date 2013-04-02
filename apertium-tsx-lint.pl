@@ -51,13 +51,52 @@ my %label_lines = ();
 my $reading = 0;
 my $saw_open = 0;
 
+my $dic;
+
 my @labels = ();
 
 my $parser = XML::Parser->new(Handlers => {Start=>\&handle_start,
 					End=>\&handle_end});
 $parser->parsefile($ARGV[0]) or die "$!\n";
 
-#if($ARGV[1] && 
+if($ARGV[1]) {
+	open($dic, "<$ARGV[1]") or die "$!\n";
+} else {
+	$dic = *STDIN;
+}
+binmode $dic, ":utf8";
+
+my $diclineno = 0;
+while(<$dic>) {
+	chomp;
+	s/^\^//;
+	s/\$$//;
+	$diclineno++;
+	my $linetext = $_;
+	my @words = split/\//;
+
+	my %matched;
+	for my $inword(@words) {
+		my $word = $inword;
+		if($inword =~ /#/) {
+			$word = (split(/#/, $inword))[0];
+		}
+		for my $regex(keys %ritems) {
+			my $has_match = 0;
+			my $curlabel = $ritems{$regex};
+			if($word =~ "($regex)") {
+				push(@{$matched{$curlabel}}, $1);
+			}
+		}
+	}
+	while (my ($key, $value) = each %matched) {
+		if($#{$value} != 0) {
+			print "MASKED_AMBIGUITY: $key ($label_lines{$key}) matches more than one analysis:\n";
+			print "INPUT: $linetext\n";
+			print "MATCHED: " . join("/", @{$value}) . "\n";
+		}
+	}
+}
 
 sub handle_start {
 	my ($expat, $element, %attrs) = @_;
