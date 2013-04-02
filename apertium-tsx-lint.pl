@@ -91,11 +91,10 @@ use strict;
 use utf8;
 
 use XML::Parser;
-use Data::Dumper;
 
 my @elements;
 
-my $DEBUG = 1;
+#my $DEBUG = 1;
 
 my $current_label = "";
 my %items = ();
