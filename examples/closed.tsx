@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagger name="conflicts">
+<tagger name="closed">
 <tagset>
    <def-label name="TO" closed="true">
     <tags-item lemma="to" tags="pr"/>

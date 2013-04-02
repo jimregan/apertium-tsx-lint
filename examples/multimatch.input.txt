@@ -1,0 +1,1 @@
+foo<prn><subj>/foo<prn><obj>
