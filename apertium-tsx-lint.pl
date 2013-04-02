@@ -77,12 +77,16 @@ sub handle_start {
 		if($attrs{'lemma'} && $attrs{'lemma'} ne '') {
 			$current_item = "^" . $attrs{'lemma'};
 		}
-		my $regex = $attrs{'tags'};
-		$regex =~ s/\*/[^>]\*/;
-		$regex =~ s/\./></g;
-		$current_item .= "<";
+		my @tags = split(/\./,$attrs{'tags'});
+		my $regex = "";
+		for my $tag (@tags) {
+			if($tag eq '*') {
+				$regex .= '(?:<[^>]*>)+';
+			} else {
+				$regex .= '<' . $tag . '>';
+			}
+		}
 		$current_item .= $regex;
-		$current_item .= ">";
 		push(@current_tags, $current_item);
 		print "$element : $line : $current_item\n" if($DEBUG);
 	}
